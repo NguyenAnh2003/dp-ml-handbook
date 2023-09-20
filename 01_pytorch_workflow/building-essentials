@@ -5,3 +5,19 @@ torch.optim - Optimizer
 def forward()
 Dataset
 DataLoader
+
+# training in pytorch : set up epoch -> train mode -> y_pred -> loss -> optimizer.zero -> loss.backward -> optimizer.step
+!zero_grad : gradients accumulate every epoch, zero them to start fresh each forward pass
+
+
+
+
+
+
+
+
+
+
+
+
+
