@@ -4,6 +4,14 @@ import torch
 import matplotlib.pyplot as plt
 from preparing_loading_data import X_test, X_train, y_train, y_test
 import numpy as np
+from pathlib import Path
+
+# Config saving
+MODEL_PATH = Path("models")
+MODEL_PATH.mkdir(parents=True, exist_ok=True)
+MODEL_NAME = "LN.pt"
+SAVE_PATH = MODEL_PATH / MODEL_NAME
+
 
 # torch.manual_seed(42)
 model = LinearRegression()
@@ -45,8 +53,10 @@ for epoch in range(epochs):
         print(model.state_dict())
 
 plt.plot(epoch_count, np.array(torch.tensor(loss_values).numpy()), label="Train loss")
-plt.plot(epoch_count, test_loss_values, label="Test loss")
+plt.plot(epoch_count, np.array(torch.tensor(test_loss_values).numpy()), label="Test loss")
 plt.ylabel("Loss")
 plt.xlabel("Epochs")
 plt.legend()
 plt.show()
+
+torch.save(model.state_dict(), SAVE_PATH)
