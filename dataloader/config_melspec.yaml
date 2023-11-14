@@ -1,0 +1,11 @@
+sample_rate: 16000
+n_fft: 640
+win_length: 640
+hop_length: 321
+window_fn: "torch.hamming_window"
+center: True
+pad_mode: "reflect"
+power: 2.0
+norm: "slaney"
+n_mels: 81
+mel_scale: "slaney"
