@@ -10,6 +10,14 @@ with open('config_melspec.yaml', 'r') as file:
     params = yaml.safe_load(file)
 
 class MyDataset(Dataset):
+    """
+    paths for audio
+    transform - transform would like to use - MelSpec
+    classes - list of target classes
+    class-to-idx - a dict of target classes mapped to integer labels
+    create functions load_data (load audio)
+
+    """
     def __init__(self, csv, root_dir):
         """
         :param phoneme: csv file
@@ -31,6 +39,7 @@ class MyDataset(Dataset):
         melspec = melspectrogram_transforms(audio, params)
         cannonical = self.annotations.iloc[index, 2]
         sample = {"Melspec": melspec, "Cannonical": cannonical} # pair
+        # return tuple including melspec and cannonical
         return melspec, cannonical
 
     def __len__(self):
@@ -46,14 +55,14 @@ class MyDataLoader(DataLoader):
             num_workers=num_workers
         )
         # pass collate function in here
-        self.collate_fn = self.collate_func
-
+        # self.collate_fn = self.collate_func
     def collate_func(self, batch):
         """
         padding n_frames -> solving too much padding
+        padding to the longest one in a batch
         1. sort dataset in increasing number of words -> minimizing padding
         2. pass sequential indices
         3. add padding to match dimensions
         """
-        melspec, cannonical = batch
-        return melspec, cannonical, type(batch)
+        melspecs, cannonicals = zip(*batch)
+        return melspecs, cannonicals

@@ -9,12 +9,14 @@ test_size = len(dataset) - train_size
 # dataset
 train_set, test_set = torch.utils.data.random_split(dataset, [train_size, test_size])
 # dataloader
-train_loader = MyDataLoader(train_set, batch_size=2, num_workers=4)
+train_loader = MyDataLoader(train_set, batch_size=4, num_workers=4)
 
 if __name__ == '__main__':
     torch.multiprocessing.freeze_support()
-    for batch_idx, (intputs, targets, type) in enumerate(train_loader):
-        print(f"Batch {batch_idx}")
-        print("Inputs: ", intputs)
-        print("Targets: ", targets)
-        print("Type batch: ", type)
+    # for batch_idx, (melspecs, cannonicals) in enumerate(train_loader):
+    #     print(f"Batch {batch_idx}")
+    #     print("Inputs: ", melspecs)
+    #     print("Targets: ", cannonicals)
+
+    for i in train_loader:
+        print("Index: ", i)
