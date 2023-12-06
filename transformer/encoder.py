@@ -30,5 +30,6 @@ class EncoderStack(nn.Module):
     def forward(self, x):
         x = self.embedding(x)
         x = self.position_encoding(x)
+        x = self.dropout(x)
         output = self.encoder(x)
         return output
