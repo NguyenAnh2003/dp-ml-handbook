@@ -2,3 +2,4 @@ vocab_size: 1000
 d_model: 768
 nhead: 4
 num_layers: 6
+max_len: 10000

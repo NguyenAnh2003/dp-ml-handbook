@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 from position_encoding import PositionEncoding
+from transformer_embedding import TransformerEmbedding
 from torch.nn.functional import gelu
 class EncoderStack(nn.Module):
     """
@@ -8,7 +9,7 @@ class EncoderStack(nn.Module):
         input embedding - how
         encoder - principle
         """
-    def __init__(self, vocab_size, d_model, nhead, num_layers):
+    def __init__(self, vocab_size, d_model, nhead, num_layers, max_seq_len: int):
         """
         Embedding: 1. num_embeddings
                    2. embedding_dim -> 300?
@@ -16,9 +17,11 @@ class EncoderStack(nn.Module):
                    5. device
         """
         super().__init__()
-        self.embedding = nn.Embedding(vocab_size, d_model) # ??
-        self.position_encoding = PositionEncoding(d_model=d_model)
-        self.dropout = nn.Dropout(p=0.1)
+        self.embedding = TransformerEmbedding(vocab_size=vocab_size,
+                                              d_model=d_model,
+                                              max_len=max_seq_len,
+                                              dropout=0.1,
+                                              device='cpu')
         # encoder_layer, num_layers, mask check
         self.encoder = nn.TransformerEncoder(
             # Encoder layer d_model, nhead, dropout
@@ -28,8 +31,6 @@ class EncoderStack(nn.Module):
         )
 
     def forward(self, x):
-        x = self.embedding(x)
-        x = self.position_encoding(x)
-        x = self.dropout(x)
+        x = self.embedding(x) # visualize embedding
         output = self.encoder(x)
         return output
