@@ -1,5 +1,10 @@
+# number of unique tokens in vocab
 vocab_size: 1000
+# dimension of used for embedding
 d_model: 768
+# mha heads
 nhead: 4
+# num layers for block: encoder, decoder
 num_layers: 6
+#
 max_len: 10000

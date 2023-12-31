@@ -10,8 +10,9 @@ encoder = EncoderStack(vocab_size=params['vocab_size'],
                      num_layers=params['num_layers'],
                      max_seq_len=params['max_len'])
 
-x = torch.randint(0, params['vocab_size'], (10, 32))
-print('output encoder', x, "size", x.shape)
+# batch size 30, seq len 10, passed through embedding -> 30x10x768
+x = torch.randn(1, 12, params['d_model'])
+print('input encoder', x, "size", x.shape)
 print(encoder.load_state_dict)
-# hidden_state = encoder(x)
-# print('output of encoder', hidden_state)
+hidden_state = encoder(x)
+print('output of encoder', hidden_state)

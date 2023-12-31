@@ -17,7 +17,8 @@ class EncoderStack(nn.Module):
             num_layers=num_layers
         )
 
-    def forward(self, x):
-        x = self.embedding(x) # visualize embedding
+    def forward(self, x: torch.FloatTensor):
+        # x: shape (seq_length, batch_size)
+        x = self.embedding(x)
         output = self.encoder(x)
         return output

@@ -18,7 +18,7 @@ class TransformerEmbedding(nn.Module):
         self.dropout = nn.Dropout(p=dropout)
 
     # dim embedding? dim pos_embedding?
-    def forward(self, x):
+    def forward(self, x: torch.FloatTensor):
         """
         :param x:
         :return: dropout (embedding + position embedding)

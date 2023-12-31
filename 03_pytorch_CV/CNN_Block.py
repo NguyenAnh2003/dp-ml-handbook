@@ -8,8 +8,8 @@ class CNN_Block(nn.Module):
     def __init__(self, in_channel, out_channel, kernel_size=3, stride=1, padding=1, dropout=0.5):
         super().__init__()
         """
-        @:param in_channel: number of channels in the input image (color channels)
-        @:param out_channnel: number of channel produced by the convolution (stack channels)
+        :param in_channel: number of channels in the input image (color channels)
+        :param out_channnel: number of channel produced by the convolution (stack channels)
         """
         # Block 1
         self.conv1 = nn.Sequential(
