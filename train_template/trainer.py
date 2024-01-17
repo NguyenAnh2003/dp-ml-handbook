@@ -26,9 +26,8 @@ def training_model():
         # evaluation
         model.eval()
         with torch.no_grad():
-            running_lossv = 0
-            for i, batch in enumerate(eval_loader):
-                inputs, labels = batch
+            running_lossv = 0.0
+            for i, (inputs, labels) in enumerate(eval_loader):
                 outputs = model(inputs)
                 loss = loss_fn(outputs, labels)
                 running_lossv += loss.item()
@@ -42,3 +41,6 @@ def training_model():
     print(f"End training with epochs: {EPOCHS}\n"
           f"Train loss {max(train_losses)}"
           f"Dev loss {max(eval_losses)}")
+
+if __name__ == "__main__":
+    training_model()

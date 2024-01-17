@@ -32,6 +32,8 @@ def train_one_epoch(epoch_index, train_loader,
     for i, batch in tqdm(enumerate(train_loader)):
         # getting input and label
         inputs, labels = batch
+        print(inputs.shape)
+
         # setup grad to zero when getting new data point
         optimizer.zero_grad()
         # make prediction for each batch

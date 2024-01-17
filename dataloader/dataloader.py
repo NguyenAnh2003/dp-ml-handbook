@@ -55,7 +55,7 @@ class MyDataLoader(DataLoader):
             num_workers=num_workers
         )
         # pass collate function in here
-        # self.collate_fn = self.collate_func
+        self.collate_fn = self.collate_func
     def collate_func(self, batch):
         """
         padding n_frames -> solving too much padding
