@@ -4,3 +4,4 @@ dataloader/train_phones.csv
 dataloader/data
 **/__pycache__/
 venv/
+.env
