@@ -26,3 +26,7 @@ class TransformerEmbedding(nn.Module):
         token_embedding = self.embedding(x)
         pos_embedding = self.position_embedding(x)
         return self.dropout(token_embedding + pos_embedding)
+
+if __name__ == "__main__":
+    a = TransformerEmbedding(500, 768, 100)
+    print(a.embedding.state_dict())

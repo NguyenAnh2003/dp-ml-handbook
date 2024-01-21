@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 
 class NeuralModel(nn.Module):
-  def __init__(self, input_size: int = 256,
+  def __init__(self, input_size: int = 65536,
                dropout: float = 0.1,
                output_size: int = 10,):
     super().__init__()
@@ -23,6 +23,8 @@ class NeuralModel(nn.Module):
                                self.fc2)
     
   def forward(self, x):
+    # flatten the input or view
+    x = x.view(x.size(0), -1) # reshape keep the batch size and multiply the rest dimension together
     x = self.model(x)
     return self.soft_max(x)
 

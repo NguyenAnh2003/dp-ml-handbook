@@ -10,31 +10,37 @@ loss_fn = setup_loss() # entropy loss
 optimizer = optim.Adam(params=model.parameters(), lr=0.001) # adam optim
 # device
 device = setup_device()
-EPOCHS = 50
+EPOCHS = 2
+best_vloss = 1_000_000
 def training_model():
     train_losses = []
     eval_losses = []
     for epoch in range(EPOCHS):
         # average loss in one epoch
-        model.train(True)
         # training
         avg_loss = train_one_epoch(epoch_index=epoch,
                                    train_loader=train_loader,
                                    optimizer=optimizer,
                                    loss_fn=loss_fn, model=model)
         train_losses.append(avg_loss) # append avg train loss
+
+        # validation
+        running_lossv = 0.0
         # evaluation
         model.eval()
         with torch.no_grad():
-            running_lossv = 0.0
             for i, (inputs, labels) in enumerate(eval_loader):
                 outputs = model(inputs)
                 loss = loss_fn(outputs, labels)
                 running_lossv += loss.item()
 
+        # tracking best loss and train loss
+        # if avg_loss < best_vloss:
+        #     best_vloss = avg_loss
+
         # print epoch result
         """ epoch result train loss, val loss"""
-        print(f"Train loss: {avg_loss/len(train_loader)}"
+        print(f"Epoch{epoch+1} Train loss: {avg_loss/len(train_loader)}"
               f" Dev loss: {running_lossv/len(eval_loader)} \n")
 
     # print end of training process

@@ -14,5 +14,5 @@ encoder = EncoderStack(vocab_size=params['vocab_size'],
 x = torch.randn(1, 12, params['d_model'])
 print('input encoder', x, "size", x.shape)
 print(encoder.load_state_dict)
-hidden_state = encoder(x)
-print('output of encoder', hidden_state)
+# hidden_state = encoder(x)
+# print('output of encoder', hidden_state)

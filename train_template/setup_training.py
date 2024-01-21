@@ -27,12 +27,17 @@ def setup_loss():
 
 def train_one_epoch(epoch_index, train_loader,
                     optimizer, loss_fn, model):
-    running_loss = 0
-    last_loss = 0
+    model.train()
+    running_loss = 0.0
     for i, batch in tqdm(enumerate(train_loader)):
         # getting input and label
         inputs, labels = batch
-        print(inputs.shape)
+
+        # set inputs and labels to cuda
+        if torch.cuda.is_available():
+            inputs, labels = inputs.cuda(), labels.cuda()
+
+        # print(inputs.shape)
 
         # setup grad to zero when getting new data point
         optimizer.zero_grad()
@@ -40,12 +45,13 @@ def train_one_epoch(epoch_index, train_loader,
         outputs = model(inputs)
         # compute loss, grad
         loss = loss_fn(outputs, labels)
-        loss.backward()
+        loss.backward() # cal grad
         # adjust weights
         optimizer.step()
         # gathering and report
         running_loss += loss.item()
-        print(f"Batch:{i} Loss:{running_loss}") # logging loss
+
+    print(f"Epoch: {epoch_index + 1} Loss: {running_loss/len(train_loader)}") # logging loss
         # wandb.log({"loss": running_loss})
     # avg loss return
-    return last_loss
+    return running_loss
