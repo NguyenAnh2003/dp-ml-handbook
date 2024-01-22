@@ -14,9 +14,11 @@ setup dataloader
 setup device
 """
 
+
 def setup_device():
     device = torch.cuda if torch.cuda.is_available() else "cpu"
     return device
+
 
 def setup_loss():
     """
@@ -25,9 +27,10 @@ def setup_loss():
     loss_fn = nn.CrossEntropyLoss()
     return loss_fn
 
+
 def train_one_epoch(epoch_index, train_loader,
                     optimizer, loss_fn, model):
-    model.train()
+    model.train(True) # train mode
     running_loss = 0.0
     for i, batch in tqdm(enumerate(train_loader)):
         # getting input and label
@@ -45,13 +48,13 @@ def train_one_epoch(epoch_index, train_loader,
         outputs = model(inputs)
         # compute loss, grad
         loss = loss_fn(outputs, labels)
-        loss.backward() # cal grad
-        # adjust weights
-        optimizer.step()
         # gathering and report
         running_loss += loss.item()
+        loss.backward()  # cal grad
+        # adjust weights
+        optimizer.step()
 
-    print(f"Epoch: {epoch_index + 1} Loss: {running_loss/len(train_loader)}") # logging loss
-        # wandb.log({"loss": running_loss})
+    print(f"Epoch: {epoch_index + 1} Loss: {running_loss / len(train_loader)}")  # logging loss
+    # wandb.log({"loss": running_loss})
     # avg loss return
     return running_loss

@@ -1,7 +1,6 @@
 from setup_training import *
 from data_loader.dataloader import *
 from train_template.model.neural_model import NeuralModel
-
 """ train template """
 
 # model setup
@@ -12,6 +11,7 @@ optimizer = optim.Adam(params=model.parameters(), lr=0.001) # adam optim
 device = setup_device()
 EPOCHS = 2
 best_vloss = 1_000_000
+
 def training_model():
     train_losses = []
     eval_losses = []
@@ -34,13 +34,15 @@ def training_model():
                 loss = loss_fn(outputs, labels)
                 running_lossv += loss.item()
 
+            eval_losses.append(running_lossv) # append dev loss
+
         # tracking best loss and train loss
         # if avg_loss < best_vloss:
         #     best_vloss = avg_loss
 
         # print epoch result
         """ epoch result train loss, val loss"""
-        print(f"Epoch{epoch+1} Train loss: {avg_loss/len(train_loader)}"
+        print(f"Epoch: {epoch+1} Train loss: {avg_loss/len(train_loader)}"
               f" Dev loss: {running_lossv/len(eval_loader)} \n")
 
     # print end of training process
