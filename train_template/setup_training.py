@@ -45,15 +45,21 @@ def train_one_epoch(epoch_index, train_loader,
 
         # setup grad to zero when getting new data point
         optimizer.zero_grad()
+
         # make prediction for each batch
         outputs = model(inputs) # batch_size, out len
+
         batch_size, out_len = outputs.size() # defining batch_size, out_len
+
         # compute loss, grad
         loss = loss_fn(outputs, labels)
         # loss /= batch_size # loss per batch
+
         # gathering and report
         running_loss += loss.item()
+
         loss.backward()  # cal grad
+
         # adjust weights
         optimizer.step()
 
