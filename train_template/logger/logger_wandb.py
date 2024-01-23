@@ -6,6 +6,3 @@ import os
 load_dotenv()
 
 wandb.login(key=os.getenv("WANDB_API"))
-run = wandb.init(
-    project="base-model",
-)

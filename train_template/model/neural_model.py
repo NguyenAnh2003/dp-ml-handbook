@@ -45,7 +45,6 @@ class NeuralModel(nn.Module):
     """
     x = self.feats(x)
     x = self.flatten(x)
-    x = x.view(x.size(0), -1) #
     x = self.classifier(x)
     return self.soft_max(x) # softmax for normalizing logits
 
