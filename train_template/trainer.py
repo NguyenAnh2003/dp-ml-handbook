@@ -9,7 +9,7 @@ loss_fn = setup_loss() # entropy loss
 optimizer = optim.Adam(params=model.parameters(), lr=0.001) # adam optim
 # device
 device = setup_device()
-EPOCHS = 10
+EPOCHS = 50
 best_vloss = 1_000_000
 
 def training_model():
@@ -22,7 +22,8 @@ def training_model():
                                    train_loader=train_loader,
                                    optimizer=optimizer,
                                    loss_fn=loss_fn, model=model)
-        train_losses.append(avg_loss) # append avg train loss
+
+        train_losses.append(avg_loss/len(train_loader)) # append avg train loss
 
         # validation
         running_lossv = 0.0
@@ -34,7 +35,7 @@ def training_model():
                 loss = loss_fn(outputs, labels)
                 running_lossv += loss.item()
 
-            eval_losses.append(running_lossv) # append dev loss
+        eval_losses.append(running_lossv/ len(eval_loader)) # append dev loss
 
         # tracking best loss and train loss
         # if avg_loss < best_vloss:

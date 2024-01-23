@@ -32,7 +32,7 @@ def train_one_epoch(epoch_index, train_loader,
                     optimizer, loss_fn, model):
     model.train(True) # train mode
     running_loss = 0.0
-    wandb.init(project="base-model")
+    wandb.init(project="basic_neural")
     for i, batch in tqdm(enumerate(train_loader)):
         # getting input and label
         inputs, labels = batch
@@ -46,9 +46,11 @@ def train_one_epoch(epoch_index, train_loader,
         # setup grad to zero when getting new data point
         optimizer.zero_grad()
         # make prediction for each batch
-        outputs = model(inputs)
+        outputs = model(inputs) # batch_size, out len
+        batch_size, out_len = outputs.size() # defining batch_size, out_len
         # compute loss, grad
         loss = loss_fn(outputs, labels)
+        # loss /= batch_size # loss per batch
         # gathering and report
         running_loss += loss.item()
         loss.backward()  # cal grad
@@ -56,6 +58,7 @@ def train_one_epoch(epoch_index, train_loader,
         optimizer.step()
 
     print(f"Epoch: {epoch_index + 1} Loss: {running_loss / len(train_loader)}")  # logging loss
-    wandb.log({"loss": running_loss / len(train_loader)}) # logging loss per epoch
+    wandb.log({"epoch": epoch_index + 1, "loss per epoch": running_loss/len(train_loader)}) # logging loss per epoch
+    # running_loss / len(train_loader) -> loss per epoch
     # avg loss return
     return running_loss
