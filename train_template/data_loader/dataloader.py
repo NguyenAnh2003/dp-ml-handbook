@@ -9,7 +9,6 @@ batch_size = 16
 # transform image to tensor
 transformer = transforms.Compose(
     [transforms.ToTensor(),
-     transforms.Resize((256, 256)),
      transforms.Normalize((0.5,), (0.5,))]
 )
 # train set

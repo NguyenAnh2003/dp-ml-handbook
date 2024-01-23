@@ -1,10 +1,10 @@
 import wandb
 from dotenv import load_dotenv
 import os
-"""
-    logging with wandb
-"""
+
+""" logging with wandb """
 load_dotenv()
+
 wandb.login(key=os.getenv("WANDB_API"))
 run = wandb.init(
     project="base-model",

@@ -9,7 +9,7 @@ loss_fn = setup_loss() # entropy loss
 optimizer = optim.Adam(params=model.parameters(), lr=0.001) # adam optim
 # device
 device = setup_device()
-EPOCHS = 2
+EPOCHS = 10
 best_vloss = 1_000_000
 
 def training_model():
