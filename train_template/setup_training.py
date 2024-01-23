@@ -57,8 +57,8 @@ def train_one_epoch(epoch_index, train_loader,
         # adjust weights
         optimizer.step()
 
-    print(f"Epoch: {epoch_index + 1} Loss: {running_loss / len(train_loader)}")  # logging loss
-    wandb.log({"epoch": epoch_index + 1, "loss per epoch": running_loss/len(train_loader)}) # logging loss per epoch
+    print(f"Epoch: {epoch_index + 1} Loss Train: {running_loss / len(train_loader)}")  # logging loss
+    wandb.log({"loss/epoch": running_loss/len(train_loader)}) # logging loss per epoch
     # running_loss / len(train_loader) -> loss per epoch
     # avg loss return
     return running_loss
