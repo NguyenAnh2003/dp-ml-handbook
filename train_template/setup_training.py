@@ -32,7 +32,6 @@ def train_one_epoch(epoch_index, train_loader,
                     optimizer, loss_fn, model):
     model.train(True) # train mode
     running_loss = 0.0
-    wandb.init(project="basic_neural")
     for i, batch in tqdm(enumerate(train_loader)):
         # getting input and label
         inputs, labels = batch
@@ -63,8 +62,7 @@ def train_one_epoch(epoch_index, train_loader,
         # adjust weights
         optimizer.step()
 
-    print(f"Epoch: {epoch_index + 1} Loss Train: {running_loss / len(train_loader)}")  # logging loss
-    wandb.log({"loss/epoch": running_loss/len(train_loader)}) # logging loss per epoch
+    print(f"Epoch: {epoch_index} Loss Train: {running_loss / len(train_loader)}")  # logging loss
     # running_loss / len(train_loader) -> loss per epoch
     # avg loss return
     return running_loss

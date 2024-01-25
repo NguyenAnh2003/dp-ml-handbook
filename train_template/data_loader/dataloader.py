@@ -32,5 +32,5 @@ classes = ('T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
            'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle Boot')
 
 if __name__ == "__main__":
-    for i, (inputs, labels) in enumerate(train_loader):
+    for i, (inputs, labels) in enumerate(eval_loader):
         print(f"Point {i} Input: {inputs.shape} Labels: {labels}")

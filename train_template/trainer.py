@@ -2,6 +2,7 @@ import torch
 from tqdm import tqdm
 from setup_training import *
 from data_loader.dataloader import *
+import wandb
 from train_template.model.neural_model import NeuralModel
 """ train template """
 
@@ -15,12 +16,14 @@ EPOCHS = 10
 best_vloss = 1_000_000
 
 def training_model():
+    """ Validation: It provides an estimate of how well the model is likely to perform on unseen data """
+    wandb.init(project="basic_neural")
     train_losses = []
     eval_losses = []
     for epoch in range(EPOCHS):
         # average loss in one epoch
         # training
-        avg_loss = train_one_epoch(epoch_index=epoch,
+        avg_loss = train_one_epoch(epoch_index=epoch+1,
                                    train_loader=train_loader,
                                    optimizer=optimizer,
                                    loss_fn=loss_fn, model=model)
@@ -47,13 +50,16 @@ def training_model():
         """ epoch result train loss, val loss"""
         print(f"Epoch: {epoch+1} Train loss: {avg_loss/len(train_loader)}"
               f" Dev loss: {running_lossv/len(eval_loader)} \n")
+        # WB logging
+        wandb.log({"eval_loss/epoch": running_lossv / len(eval_loader),
+                   "train_loss/epoch": avg_loss/len(train_loader)})  # logging loss per epoch
 
     # end training
     torch.save(model.state_dict(), "./saved_model/nguyenanh.pth")
     # print end of training process
     print(f"End training with epochs: {EPOCHS}\n"
-          f"Train loss {max(train_losses)}"
-          f"Dev loss {max(eval_losses)}")
+          f"Train loss {min(train_losses)} "
+          f"Dev loss {min(eval_losses)}")
 
 if __name__ == "__main__":
     training_model()

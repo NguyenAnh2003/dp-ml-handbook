@@ -33,8 +33,9 @@ class NeuralModel(nn.Module):
     self.flatten = nn.Flatten()
     self.fc1 = nn.Linear(in_features=2304, out_features=200, bias=True)
     self.fc2 = nn.Linear(in_features=200, out_features=output_size, bias=True)
-    self.classifier = nn.Sequential(self.fc1, self.relu, self.fc2)
-    
+    self.classifier = nn.Sequential(self.fc1, self.relu,
+                                    self.dropout, self.fc2)
+
   def forward(self, x) -> torch.Tensor:
     """
     feats -> extracting feature of input - x
@@ -51,6 +52,6 @@ class NeuralModel(nn.Module):
 if __name__ == "__main__":
   # model output
   model = NeuralModel()
-  print(f"model state {model.state_dict()}")
+  print(f"model shape memory {model.share_memory()}")
   params = sum([p.nelement() for p in model.parameters()])
   print(f"Parameters: {params} Layers params: {[p.nelement() for p in model.parameters()]}")
