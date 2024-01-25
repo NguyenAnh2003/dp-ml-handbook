@@ -1,3 +1,5 @@
+import torch
+from tqdm import tqdm
 from setup_training import *
 from data_loader.dataloader import *
 from train_template.model.neural_model import NeuralModel
@@ -9,7 +11,7 @@ loss_fn = setup_loss() # entropy loss
 optimizer = optim.Adam(params=model.parameters(), lr=0.001) # adam optim
 # device
 device = setup_device()
-EPOCHS = 50
+EPOCHS = 10
 best_vloss = 1_000_000
 
 def training_model():
@@ -46,6 +48,8 @@ def training_model():
         print(f"Epoch: {epoch+1} Train loss: {avg_loss/len(train_loader)}"
               f" Dev loss: {running_lossv/len(eval_loader)} \n")
 
+    # end training
+    torch.save(model.state_dict(), "./saved_model/nguyenanh.pth")
     # print end of training process
     print(f"End training with epochs: {EPOCHS}\n"
           f"Train loss {max(train_losses)}"
