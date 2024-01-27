@@ -3,6 +3,7 @@ from tqdm import tqdm
 from setup_training import *
 from data_loader.dataloader import *
 import wandb
+import time
 from train_template.model.neural_model import NeuralModel
 """ train template """
 
@@ -20,6 +21,7 @@ def training_model():
     wandb.init(project="basic_neural")
     train_losses = []
     eval_losses = []
+    start_time = time.time() # start couting time
     for epoch in range(EPOCHS):
         # average loss in one epoch
         # training
@@ -59,7 +61,8 @@ def training_model():
     # print end of training process
     print(f"End training with epochs: {EPOCHS}\n"
           f"Train loss {min(train_losses)} "
-          f"Dev loss {min(eval_losses)}")
+          f"Dev loss {min(eval_losses)} "
+          f"Total time: {time.time() - start_time}")
 
 if __name__ == "__main__":
     training_model()

@@ -15,7 +15,10 @@ class NeuralModel(nn.Module):
     self.conv1 = nn.Conv2d(in_channels=input_channels, out_channels=16,
                            kernel_size=3, stride=1, padding=1) # 16 channels stack together
 
+    self.norm_feats1 = nn.BatchNorm2d(16) # defining batch norm layer 1D for feature extraction
+
     self.relu = nn.ReLU() # ReLU activation
+
     # Pooling layer
     self.pool = nn.MaxPool2d(kernel_size=3, stride=2)
 
@@ -23,17 +26,24 @@ class NeuralModel(nn.Module):
     self.conv2 = nn.Conv2d(in_channels=16, out_channels=64, kernel_size=3,
                            stride=1, padding=1) # 16 channels input from prev conv
 
+    self.norm_feats2 = nn.BatchNorm2d(64) # norm feats 2
+
     # feature extraction with CNN block
-    self.feats = nn.Sequential(self.conv1, self.relu, self.pool,
-                               self.conv2, self.relu, self.pool)
+    self.feats = nn.Sequential(self.conv1, self.relu, self.norm_feats1, self.pool,
+                               self.conv2, self.relu, self.norm_feats2, self.pool)
 
     self.dropout = nn.Dropout(p=dropout) # dropout common
     self.soft_max = nn.Softmax(dim=1) # SoftMax activation function
 
-    self.flatten = nn.Flatten()
-    self.fc1 = nn.Linear(in_features=2304, out_features=200, bias=True)
-    self.fc2 = nn.Linear(in_features=200, out_features=output_size, bias=True)
-    self.classifier = nn.Sequential(self.fc1, self.relu,
+    self.flatten = nn.Flatten() # flatten input to feed to Linear layer
+    self.fc1 = nn.Linear(in_features=2304, out_features=200, bias=True) # FC1
+
+    self.norm_classifier = nn.BatchNorm1d(200) # batch norm for classifier
+
+    self.fc2 = nn.Linear(in_features=200, out_features=output_size, bias=True) # FC2
+
+    # defining classifier block
+    self.classifier = nn.Sequential(self.fc1, self.norm_classifier, self.relu,
                                     self.dropout, self.fc2)
 
   def forward(self, x) -> torch.Tensor:
