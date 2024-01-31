@@ -3,8 +3,8 @@ import torch.nn as nn
 from conformer_scratch.activations import Swish
 
 
-class ConformerFF(nn.Module):
-    def __init__(self, input_size: int, output_size: int):
+class FeedForwardNet(nn.Module):
+    def __init__(self, input_size: int, output_size: int, dropout: float):
         """
         :param input_size: number of weight after dropout
         This FF network consists of LayerNorm -> Linear -> Dropout -> Linear -> Swish
@@ -17,7 +17,7 @@ class ConformerFF(nn.Module):
                                      out_features=100, bias=True)
 
         # config dropout for common usage in FF block
-        self.dropout = nn.Dropout(p=0.1)  # common dropout
+        self.dropout = nn.Dropout(p=dropout)  # common dropout
 
         # config in feats and out feats of sub-linear 2 network
         self.sub_linear2 = nn.Linear(in_features=100, out_features=10,

@@ -9,7 +9,7 @@ class PositionEncoding(nn.Module):
     :param device
     """
     def __init__(self,  d_model: int, device: str ='cpu', max_seq_len=5000):
-        super().__init__()
+        super(PositionEncoding, self).__init__()
         # same size with input matrix - empty encoding with seq_len, and dim model
         self.encoding = torch.zeros(max_seq_len, d_model, device=device)
         #

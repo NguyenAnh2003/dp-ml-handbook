@@ -2,13 +2,20 @@ import torch
 import torch.nn as nn
 from activations import Swish
 
-class DepthWiseConv(nn.Module):
+class DepthWiseConv1D(nn.Module):
     def __init__(self):
         pass
     def forward(self, x):
         return
 
-class ConvModule(nn.Module):
+class PointWise1DConv(nn.Module):
+    def __init__(self, in_channels: int, out_channels: int, padding: int, stride: int, bias: bool):
+        """ point-wise convolution basically is 1D Convolution """
+        super(PointWise1DConv, self).__init__()
+    def forward(self, x):
+        return
+
+class ConvolutionModule(nn.Module):
     def __init__(self):
         """ Conv module contains """
         self.norm_layer = nn.LayerNorm() # normalize with LayerNorm

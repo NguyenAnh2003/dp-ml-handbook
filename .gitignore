@@ -6,3 +6,4 @@ dataloader/data
 venv/
 .env
 train_template/wandb/
+train_template/saved_model
