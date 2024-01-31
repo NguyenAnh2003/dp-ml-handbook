@@ -5,6 +5,7 @@ from conformer_scratch.activations import Swish
 
 class FeedForwardNet(nn.Module):
     def __init__(self, input_size: int, output_size: int, dropout: float):
+        super().__init__() # inherit Module
         """
         :param input_size: number of weight after dropout
         This FF network consists of LayerNorm -> Linear -> Dropout -> Linear -> Swish

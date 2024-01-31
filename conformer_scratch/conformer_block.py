@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 
 class ConformerMHA(nn.Module):
     def __init__(self):
@@ -12,6 +13,7 @@ class ConformerMHA(nn.Module):
 
 class ConformerBlock(nn.Module):
     def __init__(self):
+        super().__init__()
         """ conformer block """
     def forward(self, x):
         return x

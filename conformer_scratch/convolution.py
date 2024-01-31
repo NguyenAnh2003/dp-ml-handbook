@@ -30,7 +30,7 @@ class ConvolutionModule(nn.Module):
     def __init__(self, in_channels: int, out_channels: int,
                  stride: int, padding: int, bias: bool):
         super().__init__()
-        """ Conv module contains """
+        """ implemented Conv module sequentially """
         self.norm_layer = nn.LayerNorm() # normalize with LayerNorm
 
         self.point_wise1 = PointWise1DConv(in_channels=in_channels, stride=stride,
@@ -44,12 +44,14 @@ class ConvolutionModule(nn.Module):
         """ this batch norm layer stand behind the depth wise conv (1D) """
         self.batch_norm = nn.BatchNorm1d()
 
-        self.swish = Swish() # customized swish activation
+        """ Swish activation """
+        self.swish = Swish()
 
-        self.point_wise2 = PointWise1DConv(in_channels=out_channels, ) #
+        self.point_wise2 = PointWise1DConv() #
 
         self.dropout = nn.Dropout(p=0.1)
 
+        """ sequence of entire convolution """
         self.conv_module = nn.Sequential(
             self.norm_layer, self.point_wise1, self.glu_activation,
             self.dw_conv, self.batch_norm, self.swish, self.point_wise2,
