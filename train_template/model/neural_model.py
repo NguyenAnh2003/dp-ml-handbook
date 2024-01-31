@@ -19,6 +19,8 @@ class NeuralModel(nn.Module):
 
     self.relu = nn.ReLU() # ReLU activation
 
+    self.activation = nn.LeakyReLU()
+
     # Pooling layer
     self.pool = nn.MaxPool2d(kernel_size=3, stride=2)
 
@@ -29,8 +31,8 @@ class NeuralModel(nn.Module):
     self.norm_feats2 = nn.BatchNorm2d(64) # norm feats 2
 
     # feature extraction with CNN block
-    self.feats = nn.Sequential(self.conv1, self.relu, self.norm_feats1, self.pool,
-                               self.conv2, self.relu, self.norm_feats2, self.pool)
+    self.feats = nn.Sequential(self.conv1, self.activation, self.norm_feats1, self.pool,
+                               self.conv2, self.activation, self.norm_feats2, self.pool)
 
     self.dropout = nn.Dropout(p=dropout) # dropout common
     self.soft_max = nn.Softmax(dim=1) # SoftMax activation function
@@ -43,7 +45,7 @@ class NeuralModel(nn.Module):
     self.fc2 = nn.Linear(in_features=200, out_features=output_size, bias=True) # FC2
 
     # defining classifier block
-    self.classifier = nn.Sequential(self.fc1, self.norm_classifier, self.relu,
+    self.classifier = nn.Sequential(self.fc1, self.norm_classifier, self.activation,
                                     self.dropout, self.fc2)
 
   def forward(self, x) -> torch.Tensor:

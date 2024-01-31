@@ -23,8 +23,8 @@ def training_model():
     eval_losses = []
     start_time = time.time() # start couting time
     for epoch in range(EPOCHS):
+        model.train(True)  # train mode
         # average loss in one epoch
-        # training
         avg_loss = train_one_epoch(epoch_index=epoch+1,
                                    train_loader=train_loader,
                                    optimizer=optimizer,

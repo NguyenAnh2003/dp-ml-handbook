@@ -30,7 +30,6 @@ def setup_loss():
 
 def train_one_epoch(epoch_index, train_loader,
                     optimizer, loss_fn, model):
-    model.train(True) # train mode
     running_loss = 0.0
     for i, batch in tqdm(enumerate(train_loader)):
         # getting input and label

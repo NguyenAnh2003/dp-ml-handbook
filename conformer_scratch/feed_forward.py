@@ -23,7 +23,7 @@ class ConformerFF(nn.Module):
         self.sub_linear2 = nn.Linear(in_features=100, out_features=10,
                                      bias=True)  # final Linear layer
 
-        # customize Swish activation function
+        # Swish activation function
         self.swish = Swish()
 
         # combine all these block to form a sequence FF
