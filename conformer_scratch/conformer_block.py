@@ -3,6 +3,7 @@ import torch.nn as nn
 
 class ConformerMHA(nn.Module):
     def __init__(self):
+        super().__init__()
         """ conformer MHA include Relative Positional Encoding """
         self.mha = nn.MultiheadAttention() # transformer MHA
 
