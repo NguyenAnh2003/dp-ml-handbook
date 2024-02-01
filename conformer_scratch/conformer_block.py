@@ -2,10 +2,20 @@ import torch
 import torch.nn as nn
 from feed_forward import FeedForwardNet
 
+class RelativePositionalEncoding(nn.Module):
+    def __init__(self):
+        super(RelativePositionalEncoding, self).__init__()
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        return x
+
 class ConformerMHA(nn.Module):
     def __init__(self):
         super().__init__()
-        """ conformer MHA include Relative Positional Encoding """
+        """ conformer MHA with Relative Positional Encoding 
+        This Multi head attention based on Transformer-XL paper
+        """
+        self.pos_embedding = RelativePositionalEncoding()
 
 
     def forward(self, x):
