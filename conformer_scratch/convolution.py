@@ -26,6 +26,13 @@ class PointWise1DConv(nn.Module):
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return self.conv(x) # apply 1D conv on input
 
+class SubsamplingConv(nn.Module):
+    def __init__(self):
+        super(SubsamplingConv, self).__init__()
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        return x
+
 class ConvolutionModule(nn.Module):
     def __init__(self, in_channels: int, out_channels: int,
                  stride: int, padding: int, bias: bool):
