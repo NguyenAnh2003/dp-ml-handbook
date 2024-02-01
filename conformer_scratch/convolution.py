@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from activations import Swish, GluActivation
+from activations import Swish
 
 class DepthWiseConv1D(nn.Module):
     """ Idea behind DepthWise https://paperswithcode.com/method/depthwise-convolution
@@ -47,7 +47,7 @@ class ConvolutionModule(nn.Module):
         self.point_wise1 = PointWise1DConv(in_channels=in_channels, stride=stride,
                                            padding=padding, bias=bias) # customized Pointwise Conv
 
-        self.glu_activation = GluActivation() # customized GLU
+        self.glu_activation = nn.GLU() # customized GLU
 
         """ Depthwise Conv 1D """
         self.dw_conv = DepthWiseConv1D()
