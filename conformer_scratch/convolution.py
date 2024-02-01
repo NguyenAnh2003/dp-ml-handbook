@@ -34,10 +34,14 @@ class SubsamplingConv(nn.Module):
         return x
 
 class ConvolutionModule(nn.Module):
+    """ implemented Conv module sequentially """
     def __init__(self, in_channels: int, out_channels: int,
                  stride: int, padding: int, bias: bool):
         super().__init__()
-        """ implemented Conv module sequentially """
+        """ 
+        the point wise conv -> depth wise conv called separable convolution
+        follow this guide https://towardsdatascience.com/a-basic-introduction-to-separable-convolutions-b99ec3102728 
+        """
         self.norm_layer = nn.LayerNorm() # normalize with LayerNorm
 
         self.point_wise1 = PointWise1DConv(in_channels=in_channels, stride=stride,

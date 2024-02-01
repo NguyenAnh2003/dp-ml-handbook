@@ -27,6 +27,9 @@ class FeedForwardNet(nn.Module):
         # Swish activation function
         self.swish = Swish()
 
+        # SiLU activation
+        self.silu = nn.SiLU()
+
         # combine all these block to form a sequence FF
         self.linear = nn.Sequential(
             self.norm_layer,
