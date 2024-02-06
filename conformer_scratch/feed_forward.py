@@ -31,7 +31,7 @@ class FeedForwardNet(nn.Module):
         self.silu = nn.SiLU()
 
         # combine all these block to form a sequence FF
-        self.linear = nn.Sequential(
+        self.chain = nn.Sequential(
             self.norm_layer,
             self.sub_linear1,
             self.swish,
@@ -42,5 +42,5 @@ class FeedForwardNet(nn.Module):
 
     def forward(self, x):
         """ input is weights from Linear layer after Dropout """
-        x = self.linear(x)
+        x = self.chain(x)
         return x  # return output of FF network

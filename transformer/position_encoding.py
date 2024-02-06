@@ -1,7 +1,7 @@
 import math
-
 import torch.nn as nn
 import torch
+
 class PositionEncoding(nn.Module):
     """
     :param d_model
