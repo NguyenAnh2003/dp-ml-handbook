@@ -31,7 +31,10 @@ def setup_loss():
 def train_one_epoch(epoch_index, train_loader,
                     optimizer, loss_fn, model):
     running_loss = 0.0
+    epoch_loss = [] # epoch loss
+    batch_loss = [] # batch loss
     for i, batch in tqdm(enumerate(train_loader)):
+
         # getting input and label
         inputs, labels = batch
 
@@ -51,17 +54,23 @@ def train_one_epoch(epoch_index, train_loader,
 
         # compute loss, grad
         loss = loss_fn(outputs, labels)
-        # loss /= batch_size # loss per batch
-
-        # gathering and report
-        running_loss += loss.item()
 
         loss.backward()  # cal grad
 
         # adjust weights
         optimizer.step()
+        # loss /= batch_size # loss per batch
 
-    print(f"Epoch: {epoch_index} Loss Train: {running_loss / len(train_loader)}")  # logging loss
+        # gathering and report
+        running_loss += loss.item()
+
+        # batch loss
+        batch_loss.append(loss.item())
+
+    # epoch loss
+    epoch_loss.append(sum(batch_loss)/(len(batch_loss)))
+
+    # print(f"Epoch: {epoch_index} Loss Train: {running_loss / len(train_loader)}")  # logging loss
     # running_loss / len(train_loader) -> loss per epoch
     # avg loss return
-    return running_loss
+    return sum(epoch_loss) / len(epoch_loss)

@@ -20,7 +20,8 @@ def training_model():
     """ Validation: It provides an estimate of how well the model is likely to perform on unseen data """
     wandb.init(project="basic_neural")
     train_losses = []
-    eval_losses = []
+    eval_losses = [] # epoch val loss
+    batch_val_loss = []
     start_time = time.time() # start couting time
     for epoch in range(EPOCHS):
         model.train(True)  # train mode
@@ -30,7 +31,7 @@ def training_model():
                                    optimizer=optimizer,
                                    loss_fn=loss_fn, model=model)
 
-        train_losses.append(avg_loss/len(train_loader)) # append avg train loss
+        train_losses.append(avg_loss) # append avg train loss
 
         # validation
         running_lossv = 0.0
@@ -41,8 +42,9 @@ def training_model():
                 outputs = model(inputs)
                 loss = loss_fn(outputs, labels)
                 running_lossv += loss.item()
+                batch_val_loss.append(loss.item())
 
-        eval_losses.append(running_lossv/ len(eval_loader)) # append dev loss
+        eval_losses.append(sum(batch_val_loss)/ len(batch_val_loss)) # append dev loss
 
         # tracking best loss and train loss
         # if avg_loss < best_vloss:
@@ -50,11 +52,11 @@ def training_model():
 
         # print epoch result
         """ epoch result train loss, val loss"""
-        print(f"Epoch: {epoch+1} Train loss: {avg_loss/len(train_loader)}"
-              f" Dev loss: {running_lossv/len(eval_loader)} \n")
+        # print(f"Epoch: {epoch+1} Train loss: {avg_loss/len(train_loader)}"
+        #       f" Dev loss: {running_lossv/len(eval_loader)} \n")
         # WB logging
-        wandb.log({"eval_loss/epoch": running_lossv / len(eval_loader),
-                   "train_loss/epoch": avg_loss/len(train_loader)})  # logging loss per epoch
+        wandb.log({"eval_loss/epoch": sum(eval_losses) / len(eval_losses),
+                   "train_loss/epoch": avg_loss})  # logging loss per epoch
 
     # end training
     torch.save(model.state_dict(), "./saved_model/nguyenanh.pth")
