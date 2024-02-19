@@ -1,11 +1,7 @@
 import torch.cuda
 import torch.optim as optim
 import torch.nn as nn
-from torch.utils.data import DataLoader, Dataset
-import torchvision.transforms as transforms
-import torchvision
 from tqdm import tqdm
-import wandb
 
 # setup file
 """
