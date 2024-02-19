@@ -5,7 +5,7 @@ import torchvision
     setup basically dataset for training
     dataset, dataloader
 """
-batch_size = 16
+batch_size = 1
 # transform image to tensor
 transformer = transforms.Compose(
     [transforms.ToTensor(),
@@ -32,5 +32,5 @@ classes = ('T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
            'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle Boot')
 
 if __name__ == "__main__":
-    for i, (inputs, labels) in enumerate(eval_loader):
-        print(f"Point {i} Input: {inputs.shape} Labels: {labels}")
+    for i, (inputs, label) in enumerate(eval_loader):
+        print(f"Point {i} Input: {inputs.shape} Labels: {type(label)}")

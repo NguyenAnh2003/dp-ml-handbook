@@ -3,15 +3,16 @@ import torch.nn as nn
 import torch
 
 class PositionEncoding(nn.Module):
-    """
+    """ Implement based on https://arxiv.org/abs/1706.03762
     :param d_model
     :param max_seq_len max length of a sentence
     :param device
     """
-    def __init__(self,  d_model: int, device: str ='cpu', max_seq_len=5000):
+    def __init__(self,  d_model: int, device: str = "cpu", max_seq_len=5000):
         super(PositionEncoding, self).__init__()
         # same size with input matrix - empty encoding with seq_len, and dim model
         self.encoding = torch.zeros(max_seq_len, d_model, device=device)
+
         #
         div_term = torch.exp(torch.arange(0, d_model, 2) * (-math.log(10000) / d_model))
 
