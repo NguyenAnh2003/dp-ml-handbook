@@ -30,12 +30,13 @@ v = v[:, sorted_indices]
 
 # choosing number of principal components
 num_components = 3
-feature_vectors = v[:, :num_components]
+feature_vectors = v[:, :num_components].T
 print(f"Feature vector shape: {feature_vectors.shape} "
       f"Feature vectors: {feature_vectors}")
 
-result = np.dot(x_normalized, feature_vectors)
-print(f"Result: {result} Transpose: {result.T}")
+# projected vector
+result = np.dot(feature_vectors, x_normalized.T).T
+print(f"Result: {result}")
 
 x = result[:, 0]
 y = result[:, 1]
