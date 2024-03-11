@@ -54,6 +54,13 @@ def leaky_relu_r(x, a=0.1):
 def leaky_relu_derivative(x, a=0.1):
     return np.where(x > 0, 1, a)
 
+# ELU
+def elu_f(x):
+    return
+
+def elu_der(x):
+    return
+
 if __name__ == "__main__":
     # sigmoid
     sigmoid_values = sigmoid_f(x)
