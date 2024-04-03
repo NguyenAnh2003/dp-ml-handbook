@@ -5,4 +5,8 @@ import os
 """ logging with wandb """
 load_dotenv()
 
-wandb.login(key=os.getenv("WANDB_API"))
+def train_logging(dev_loss: float, 
+                  train_loss: float):
+    
+  # logging dev/train loss
+  wandb.log({"train loss/epoch": train_loss, "dev loss/epoch": dev_loss})  

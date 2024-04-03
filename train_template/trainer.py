@@ -5,6 +5,7 @@ from data_loader.dataloader import *
 import wandb
 import time
 from train_template.model.neural_model import NeuralModel
+from logger.logger_wandb import train_logging
 """ train template """
 
 # model setup
@@ -16,9 +17,9 @@ device = setup_device()
 EPOCHS = 10
 best_vloss = 1_000_000
 
-def training_model():
+def training_model(exp_name: str):
     """ Validation: It provides an estimate of how well the model is likely to perform on unseen data """
-    wandb.init(project="basic_neural")
+    wandb.init(project="basic_neural", name=exp_name)
     train_losses = []
     eval_losses = [] # epoch val loss
     batch_val_loss = []
@@ -57,6 +58,8 @@ def training_model():
         # WB logging
         wandb.log({"eval_loss/epoch": sum(eval_losses) / len(eval_losses),
                    "train_loss/epoch": avg_loss})  # logging loss per epoch
+        
+        train_logging(train_loss=avg_loss, dev_loss=sum(eval_losses)/len(eval_losses))
 
     # end training
     torch.save(model.state_dict(), "./saved_model/nguyenanh.pth")
@@ -67,4 +70,4 @@ def training_model():
           f"Total time: {time.time() - start_time}")
 
 if __name__ == "__main__":
-    training_model()
+    training_model("4-3")
