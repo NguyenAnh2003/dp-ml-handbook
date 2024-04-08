@@ -55,10 +55,8 @@ def training_model(exp_name: str):
         """ epoch result train loss, val loss"""
         # print(f"Epoch: {epoch+1} Train loss: {avg_loss/len(train_loader)}"
         #       f" Dev loss: {running_lossv/len(eval_loader)} \n")
+
         # WB logging
-        wandb.log({"eval_loss/epoch": sum(eval_losses) / len(eval_losses),
-                   "train_loss/epoch": avg_loss})  # logging loss per epoch
-        
         train_logging(train_loss=avg_loss, dev_loss=sum(eval_losses)/len(eval_losses))
 
     # end training
